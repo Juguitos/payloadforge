@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  payloadforge:
+    build: .
+    container_name: payloadforge
+    ports:
+      - "8080:80"
+    volumes:
+      - ./index.php:/var/www/html/index.php:ro
+    restart: unless-stopped
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data

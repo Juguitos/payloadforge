@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Si el archivo o directorio realmente existe, déjalo pasar
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Todo lo demás va a tu página trampa
+RewriteRule ^(.*)$ /trampa.php [L]
