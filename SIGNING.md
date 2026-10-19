@@ -38,7 +38,7 @@ export AMO_JWT_SECRET="your-long-secret-here"
 `sign.sh` runs:
 
 ```bash
-npx --yes web-ext@8.3.0 sign \
+npx --yes web-ext@8.2.0 sign \
   --channel=unlisted \
   --api-key="$AMO_JWT_ISSUER" \
   --api-secret="$AMO_JWT_SECRET"
@@ -71,3 +71,23 @@ After a minute, the signed file appears in `web-ext-artifacts/`, e.g.
 
 The **signed `.xpi` (Steps 1–4)** is the only way to get a permanent install on
 ordinary Firefox stable.
+
+---
+
+## Troubleshooting
+
+**`Validation failed ... Unsupported file type, please upload a supported file (.crx, .xpi, .zip)`**
+
+This is a `web-ext` 8.3.0 compatibility bug (AMO rejects the uploaded package),
+not a problem with the extension. Fix: pin **`web-ext@8.2.0`** (already set in
+`sign.sh`), or run the signer directly:
+
+```bash
+npx --yes web-ext@8.2.0 sign --channel=unlisted \
+  --api-key="$AMO_JWT_ISSUER" --api-secret="$AMO_JWT_SECRET" \
+  --source-dir=. --artifacts-dir=web-ext-artifacts
+```
+
+If it still fails, make sure Node.js is an LTS release (`node -v`).
+
+**`Version already exists`** — bump `version` in `manifest.json` (e.g. 1.0.0 → 1.0.1).

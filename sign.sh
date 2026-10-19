@@ -13,7 +13,7 @@ if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
   exit 1
 fi
 
-npx --yes web-ext@8.3.0 sign \
+npx --yes web-ext@8.2.0 sign \
   --channel=unlisted \
   --api-key="$AMO_JWT_ISSUER" \
   --api-secret="$AMO_JWT_SECRET" \
