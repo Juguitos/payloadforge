@@ -265,7 +265,7 @@ html.light .chip.aw{background:rgba(37,99,235,.06)}
 .credit a:hover{opacity:1}
 
 /* ── Responsive ── */
-@media(max-width:900px){
+@media(max-width:380px){
   .body-grid{grid-template-columns:1fr}
   aside{border-right:none;border-bottom:1px solid var(--b1);padding:10px 0;max-height:240px}
   main{padding:12px 0 0}
@@ -274,7 +274,7 @@ html.light .chip.aw{background:rgba(37,99,235,.06)}
   .mut-lbl{display:none}
   .jrow,.jatk,.cj-igrid{grid-template-columns:1fr}
 }
-@media(max-width:600px){
+@media(max-width:360px){
   .logo-name{font-size:12px}
   .header-right{width:100%}
   .cat-tabs{justify-content:flex-start}
@@ -384,3 +384,23 @@ main { padding: 8px 0 0 14px; min-width: 0; overflow: hidden; }
 
 /* small gap so the PATT/PF badge never touches the payload name */
 .sbadge { margin-left: 6px; }
+
+/* ── LAYOUT FIX v3 — make the sidebar fill the full height ────────────────── */
+/* The single grid row must span the whole body-grid height so <aside> stretches
+   and .payload-list (flex:1) gets real scroll height instead of ~145px. */
+.body-grid { grid-template-rows: minmax(0, 1fr); align-items: stretch; }
+aside, main { height: 100%; min-height: 0; }
+
+/* compact sidebar cards: single-line payload preview (keeps wrapping for the
+   big LIBRARY cards and mutations, which use .lib-payload / .mut-val) */
+.ppreview {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-height: none; word-break: normal;
+}
+.payload-card .pc-main { padding: 6px 8px; }
+
+/* ── LAYOUT FIX v4 — use flexbox row instead of grid for reliable full-height
+   stretch of the sidebar. (grid stretch + height:100% was collapsing aside.) */
+.body-grid { display: flex; flex-direction: row; }
+aside { height: auto; flex: 0 0 220px; width: 220px; }
+main  { height: auto; flex: 1 1 auto; min-width: 0; }
