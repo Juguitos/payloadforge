@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PayloadForge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WAF bypass payload lab: build, mutate and inject security-testing payloads into the active tab. For authorized testing only.",
   "author": "Juguitos",
   "icons": {

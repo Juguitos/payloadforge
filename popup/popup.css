@@ -346,3 +346,41 @@ main { padding: 10px 0 0 14px; }
   padding: 8px 16px; border-radius: var(--r); font-size: 11px; max-width: 90%; text-align: center;
   opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 9999; }
 #pf-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LAYOUT FIX v2 — Firefox caps action popups at 800×600. Keep under it and
+   stop any horizontal overflow (long payloads were stretching the grid).
+   ══════════════════════════════════════════════════════════════════════════ */
+body { width: 760px; height: 580px; }
+#app { height: 580px; padding: 0 12px; overflow: hidden; }
+
+/* top bar: logo left, buttons right, single tidy row */
+header { padding: 10px 0 8px; flex-wrap: nowrap; align-items: center; }
+.header-right { flex: 0 0 auto; flex-wrap: nowrap; align-items: center; }
+
+/* category tabs on their own full-width row, wrap neatly, left-aligned */
+.cat-tabs {
+  display: flex; flex-wrap: wrap; gap: 3px; justify-content: flex-start;
+  padding: 7px 0; margin-bottom: 2px;
+  border-bottom: 1px solid var(--b1); max-height: 72px; overflow-y: auto;
+}
+
+/* two-pane body: fixed sidebar + flexible main that is allowed to shrink */
+.body-grid { grid-template-columns: 220px minmax(0, 1fr); gap: 0; overflow: hidden; }
+aside { padding: 8px 12px 0 0; min-width: 0; }
+main { padding: 8px 0 0 14px; min-width: 0; overflow: hidden; }
+#tab-content { min-width: 0; }
+
+/* kill horizontal blowout from long payload strings everywhere */
+.lib-grid { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+.lib-card, .payload-card, .mut-row { min-width: 0; }
+.lib-payload, .ppreview, .mut-val, .base-label span {
+  min-width: 0; overflow-wrap: anywhere; word-break: break-all;
+}
+.ppreview { white-space: normal; max-height: 2.6em; overflow: hidden; }
+.mut-val { white-space: normal; }
+.mut-row { grid-template-columns: 120px minmax(0,1fr) auto auto; align-items: center; }
+.base-label { overflow-wrap: anywhere; }
+
+/* small gap so the PATT/PF badge never touches the payload name */
+.sbadge { margin-left: 6px; }
