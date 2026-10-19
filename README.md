@@ -54,6 +54,9 @@ There is **no `host_permissions` for all sites** and **no network access** — t
 ```
 Rename to `.xpi`. For permanent install it must be signed via [AMO](https://addons.mozilla.org/developers/) (`web-ext sign`) unless you use Firefox Developer/Nightly with `xpinstall.signatures.required = false`.
 
+### Permanent install (signed)
+See **[SIGNING.md](SIGNING.md)** — get free Mozilla API credentials, run `./sign.sh`, then install the resulting signed `.xpi` from `about:addons`. This is the only way to install permanently on Firefox **stable**.
+
 > Works on Chromium too with a minor manifest change (swap `background.scripts` for a `service_worker`).
 
 ## ⚠️ Disclaimer
