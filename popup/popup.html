@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="popup.css">
+<title>PayloadForge</title>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">
+      <div class="logo-name">PAYLOAD<em>FORGE</em></div>
+      <div class="logo-sub">WAF Bypass Lab</div>
+    </div>
+    <div class="header-right">
+      <div class="cat-tabs" id="cat-tabs"></div>
+      <button class="icon-btn" data-act="ph-toggle" title="Placeholders (TARGET / ATTACKER)">⚙</button>
+      <button class="icon-btn" id="theme-btn" data-act="theme" title="Toggle theme">◐ DARK</button>
+    </div>
+  </header>
+
+  <div class="ph-panel" id="ph-panel">
+    <div class="ph-title">PLACEHOLDERS — auto-replaced in copied / inserted payloads</div>
+    <div class="ph-grid">
+      <label>TARGET<input type="text" id="ph-target" placeholder="victim.example.com"></label>
+      <label>ATTACKER<input type="text" id="ph-attacker" placeholder="https://you.oast.site"></label>
+      <label>OAST<input type="text" id="ph-oast" placeholder="xyz.oast.site"></label>
+    </div>
+    <button class="gen-btn small" data-act="ph-save">SAVE</button>
+  </div>
+
+  <div class="body-grid">
+    <aside>
+      <div class="filter-chips" id="filter-chips"></div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Search payloads, tags...">
+      </div>
+      <div class="sidebar-meta" id="sidebar-meta"></div>
+      <div class="payload-list" id="payload-list"></div>
+    </aside>
+    <main>
+      <div class="tab-nav" id="tab-nav"></div>
+      <div id="tab-content"></div>
+      <div class="credit">
+        Payloads from <a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank" rel="noopener">PayloadsAllTheThings</a>
+        · Original payloads by <a href="https://github.com/Juguitos/payloadforge" target="_blank" rel="noopener">@Juguitos</a>
+        · <strong style="color:var(--orange)">Authorized testing only</strong>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../lib/payloads.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

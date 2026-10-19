@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "PayloadForge",
+  "version": "1.0.0",
+  "description": "WAF bypass payload lab: build, mutate and inject security-testing payloads into the active tab. For authorized testing only.",
+  "author": "Juguitos",
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "payloadforge@juguitos.github.io",
+      "strict_min_version": "121.0"
+    }
+  },
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "action": {
+    "default_title": "PayloadForge",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    }
+  },
+  "background": {
+    "scripts": ["lib/payloads.js", "background/background.js"]
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Ctrl+Shift+P" },
+      "description": "Open PayloadForge"
+    },
+    "inject-last": {
+      "suggested_key": { "default": "Ctrl+Shift+Y" },
+      "description": "Inject last payload into the focused field"
+    }
+  }
+}
