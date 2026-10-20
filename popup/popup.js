@@ -107,6 +107,34 @@ function saveFavs() { api.storage.local.set({ pf_favs: [...S.favs] }); }
 function saveRecent() { api.storage.local.set({ pf_recent: S.recent.slice(0, 15) }); }
 function savePlaceholders() { api.storage.local.set({ pf_placeholders: S.placeholders }); }
 
+// Remember the current view across popup open/close. storage.session is cleared
+// when the browser restarts, so a restart returns to the default view.
+function persistSession() {
+  try {
+    api.storage.session.set({ pf_ui: {
+      cat: S.cat, tab: S.tab, search: S.search, pid: S.pid,
+      customPayload: S.customPayload, mutResults: S.mutResults,
+      selMuts: [...S.selMuts], waf: S.waf, filter: S.filter,
+    } });
+  } catch (_) {}
+}
+async function restoreSession() {
+  try {
+    if (!api.storage.session) return;
+    const { pf_ui } = await api.storage.session.get('pf_ui');
+    if (!pf_ui) return;
+    S.cat = pf_ui.cat || S.cat;
+    S.tab = pf_ui.tab || S.tab;
+    S.search = pf_ui.search || '';
+    S.pid = pf_ui.pid || '';
+    S.customPayload = pf_ui.customPayload || '';
+    S.mutResults = Array.isArray(pf_ui.mutResults) ? pf_ui.mutResults : [];
+    S.selMuts = new Set(pf_ui.selMuts || []);
+    S.waf = pf_ui.waf || '';
+    S.filter = pf_ui.filter || 'all';
+  } catch (_) {}
+}
+
 function pushRecent(id) {
   S.recent = [id, ...S.recent.filter((x) => x !== id)].slice(0, 15);
   saveRecent();
@@ -185,6 +213,7 @@ function renderTabNav() {
 }
 
 function renderTabContent() {
+  persistSession();
   const el = document.getElementById('tab-content');
   if (S.tab === 'library') { el.innerHTML = buildLibrary(); return; }
   if (S.tab === 'custom') { el.innerHTML = buildCustom(); syncEditor(); return; }
@@ -192,6 +221,7 @@ function renderTabContent() {
 }
 
 function renderAll() {
+  persistSession();
   renderCatTabs();
   renderFilters();
   renderSidebar();
@@ -262,7 +292,7 @@ function buildMutationForm() {
 
 function syncEditor() {
   const ta = document.getElementById('payload-editor');
-  if (ta) ta.addEventListener('input', () => { S.customPayload = ta.value; });
+  if (ta) ta.addEventListener('input', () => { S.customPayload = ta.value; persistSession(); });
 }
 
 function clearWaf() {
@@ -508,7 +538,7 @@ function setFilter(f) {
   renderAll();
 }
 function setTab(tab) { S.tab = tab; renderTabNav(); renderTabContent(); }
-function onSearch(q) { S.search = q.toLowerCase(); renderSidebar(); if (S.tab === 'library') renderTabContent(); }
+function onSearch(q) { S.search = q.toLowerCase(); renderSidebar(); if (S.tab === 'library') renderTabContent(); persistSession(); }
 function selectPayload(id) {
   S.pid = id;
   const p = findPayload(id);
@@ -601,6 +631,7 @@ function onChipClick(e) {
     const k = mut.dataset.mut;
     if (S.selMuts.has(k)) S.selMuts.delete(k); else S.selMuts.add(k);
     mut.classList.toggle('am', S.selMuts.has(k));
+    persistSession();
   }
 }
 
@@ -612,6 +643,7 @@ function onInput(e) {
 async function init() {
   try { if (localStorage.getItem('pf_theme') === 'light') document.documentElement.classList.add('light'); } catch (_) {}
   await loadStore();
+  await restoreSession();
   const app = document.getElementById('app');
   app.addEventListener('click', onClick);
   app.addEventListener('click', onChipClick);
@@ -619,6 +651,8 @@ async function init() {
   const tb = document.getElementById('theme-btn');
   if (tb && document.documentElement.classList.contains('light')) tb.textContent = '◑ LIGHT';
   renderAll();
+  const si = document.getElementById('search-input');
+  if (si) si.value = S.search;
 }
 
 document.addEventListener('DOMContentLoaded', init);
